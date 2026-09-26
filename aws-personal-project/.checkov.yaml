@@ -1,0 +1,40 @@
+# Checkov configuration for the whole repo.
+# Every skip below is a deliberate design decision, with the reason recorded
+# here so a reviewer can see it was considered rather than ignored.
+framework:
+  - terraform
+quiet: true
+compact: true
+skip-path:
+  - .terraform
+skip-check:
+  # S3
+  - CKV_AWS_144   # Cross-region replication belongs to the DR project (Project 3), not the HA design
+  - CKV_AWS_145   # ALB access logs require SSE-S3, and CloudFront OAC assets use SSE-S3 by design
+  - CKV2_AWS_62   # S3 event notifications are not part of any workflow in these projects
+  # CloudFront and ALB without a custom domain
+  - CKV_AWS_174   # Default CloudFront certificate is used when no domain is owned
+  - CKV2_AWS_42   # Same reason: no custom certificate without a domain
+  - CKV_AWS_310   # Origin failover groups apply to multi-region origins (Project 3)
+  - CKV_AWS_86    # CloudFront access logs are out of scope; ALB access logs are enabled instead
+  - CKV_AWS_68    # WAF is a documented next step (cost), not in the brief
+  - CKV2_AWS_47   # WAF managed rules, same reason as above
+  - CKV2_AWS_28   # WAF on ALB, same reason as above
+  - CKV_AWS_2     # ALB HTTP listener is reachable only from CloudFront and requires a secret header; HTTPS is used when a domain is supplied
+  - CKV_AWS_103   # Same listener, see above
+  - CKV2_AWS_20   # Same listener, see above
+  - CKV_AWS_378   # Target group uses HTTP inside the VPC
+  # RDS
+  - CKV_AWS_161   # App authenticates with the RDS managed secret in Secrets Manager, not IAM auth
+  - CKV_AWS_353   # Performance Insights is not supported on the db.t3.micro/small classes used for the lab; it is a variable
+  - CKV_AWS_354   # Same as above
+  # Lab lifecycle settings, exposed as variables and documented in each README
+  - CKV_AWS_150   # ALB deletion protection is a variable, off by default so the lab can be destroyed
+  - CKV_AWS_293   # RDS deletion protection is a variable, off by default so the lab can be destroyed
+  - CKV_AWS_338   # Log retention is 30 days for lab cost; production would use 365 or more
+  # Secrets and logging
+  - CKV2_AWS_57   # Redis AUTH token rotation is manual (documented); the RDS managed secret rotates automatically
+  - CKV2_AWS_10   # CloudTrail to CloudWatch Logs integration is covered in the CloudTrail project (Project 8)
+  - CKV_AWS_252   # CloudTrail SNS delivery notifications are not needed here
+  # Networking
+  - CKV_AWS_382   # App tier needs outbound HTTPS through NAT for packages and AWS APIs
