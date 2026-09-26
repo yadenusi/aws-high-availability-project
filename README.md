@@ -1,6 +1,6 @@
 # AWS Solutions Architect Capstone Projects
 
-Twelve hands-on AWS architecture projects built for the AWS Solutions Architect Associate (SAA-C03) capstone. Every project is written from scratch in **Terraform**, deployed to a real AWS account, tested against failure scenarios, documented with evidence, and then torn down.
+ AWS architecture projects built for the AWS Solutions Architect Associate (SAA-C03) capstone. Every project is written from scratch in **Terraform**, deployed to a real AWS account, tested against failure scenarios, documented with evidence, and then torn down.
 
 **Author:** Yusuf Adenusi
 
