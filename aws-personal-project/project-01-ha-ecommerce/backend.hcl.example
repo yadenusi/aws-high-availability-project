@@ -1,8 +1,0 @@
-# Generated for you as backend.hcl by: cd bootstrap && terraform apply
-# Shown here only for reference. backend.hcl is git ignored.
-bucket       = "ecommerce-ha-tfstate-p01-123456789012"
-key          = "project-01-ha-ecommerce/terraform.tfstate"
-region       = "us-east-2"
-encrypt      = true
-kms_key_id   = "arn:aws:kms:us-east-2:123456789012:key/00000000-0000-0000-0000-000000000000"
-use_lockfile = true
